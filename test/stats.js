@@ -1,7 +1,10 @@
 var tmp;
 if (!chai) {
-  var chai = require('chai')
-    , stats = require('..');
+  var chai = require('chai');
+  var stats = (process && process.env && process.env.CHAI_STATS_COV)
+    ? require('../lib-cov/stats')
+    : require('../lib/stats');
+
   chai.use(stats);
   tmp = stats;
 }
@@ -62,7 +65,7 @@ describe('Chai Stats', function () {
       }).should.throw(chai.AssertionError, "expected { pi: 3.1416 } to equal { pi: 3.14159 } up to 7 decimal places");
 
     });
-    
+
     it('should round to nearest number if explicitely given 0 precision', function() {
       ({ pi: 3.1416 }).should.almost.eql({ pi: 3 }, 0);
       assert.deepAlmostEqual({pi: 3.1416}, {pi: 3}, 0);
